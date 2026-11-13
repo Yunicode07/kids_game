@@ -42,14 +42,17 @@ button{font-family:inherit;color:inherit}
 .pop{animation:popin .45s}
 @keyframes popin{0%{transform:scale(.6)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
 .gone{visibility:hidden}
+/* small screens: settings sheet */
+@media (max-height:520px){.sheet{height:96vh;width:98vw;border-radius:18px}.nav{width:190px;padding:12px 10px;gap:6px;overflow-y:auto}.nav .jua{font-size:20px !important;margin:0 0 6px 6px !important}.navbtn{height:40px;font-size:15px;flex-shrink:0}.nav .btn{height:42px;font-size:14px;flex-shrink:0}.nav>div[style*="flex:1"]{flex:0 0 4px !important}.pane{padding:16px 20px}}
+@media (max-width:700px) and (min-height:521px){.sheet{flex-direction:column;width:98vw;height:96vh}.nav{width:auto;padding:12px;overflow-y:auto;max-height:42%}.nav .jua{font-size:22px !important;margin:0 0 6px 6px !important}#tabs{flex-direction:row !important;flex-wrap:wrap}.navbtn{height:44px;flex:0 0 auto}.nav>div[style*="flex:1"]{display:none}.nav .btn{height:46px}.pane{padding:18px 16px}}
 /* corner buttons */
 .corner{position:absolute;top:16px;width:64px;height:64px;border-radius:32px;border:none;background:#F6F1E7;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20}
 .corner svg.ringsvg{position:absolute;inset:0}
 #gear{right:20px}
 #homeBtn{left:20px}
 /* guide */
-#guide{position:absolute;left:18px;bottom:14px;display:flex;align-items:flex-end;gap:10px;z-index:10;pointer-events:none;max-width:70vw}
-#bubble{background:#FFFFFF;border:3px solid #2A2622;border-radius:22px;padding:12px 18px;font-family:'Jua',sans-serif;font-size:clamp(18px,calc(var(--vh)*3),26px);margin-bottom:46px;position:relative;max-width:56vw}
+#guide{position:absolute;left:max(18px,calc(env(safe-area-inset-left,0px)/var(--sc,1) + 18px));bottom:max(14px,calc(env(safe-area-inset-bottom,0px)/var(--sc,1) + 14px));display:flex;align-items:flex-end;gap:10px;z-index:10;pointer-events:none;max-width:calc(var(--vw)*80)}
+#bubble{background:#FFFFFF;border:3px solid #2A2622;border-radius:22px;padding:12px 18px;font-family:'Jua',sans-serif;font-size:clamp(18px,calc(var(--vh)*3),26px);margin-bottom:46px;position:relative;max-width:calc(var(--vw)*62);min-width:min(260px,calc(var(--vw)*50));word-break:keep-all;overflow-wrap:break-word}
 #bubble:empty{display:none}
 /* fruit */
 .panel{border-radius:28px;padding:18px;display:flex;align-items:center;justify-content:center}
@@ -99,7 +102,7 @@ input[type=range]{width:100%;height:32px;accent-color:#2F6FB5}
 <script>
 // ---------- fit to screen ----------
 let SC=1,DW=1280,DH=760;
-function fit(){const base=760;SC=innerHeight/base;if(innerWidth/SC<1060)SC=innerWidth/1060;DW=innerWidth/SC;DH=innerHeight/SC;const app=document.getElementById('app');app.style.width=DW+'px';app.style.height=DH+'px';app.style.transform=`scale(${SC})`;document.documentElement.style.setProperty('--vw',(DW/100)+'px');document.documentElement.style.setProperty('--vh',(DH/100)+'px')}
+function fit(){const base=760;SC=innerHeight/base;const minW=innerHeight>innerWidth?720:1060;if(innerWidth/SC<minW)SC=innerWidth/minW;DW=innerWidth/SC;DH=innerHeight/SC;const app=document.getElementById('app');app.style.width=DW+'px';app.style.height=DH+'px';app.style.transform=`scale(${SC})`;document.documentElement.style.setProperty('--sc',SC);document.documentElement.style.setProperty('--vw',(DW/100)+'px');document.documentElement.style.setProperty('--vh',(DH/100)+'px')}
 fit();addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));
 // ---------- drawing ----------
 function svg(inner,w,h,vb){return `<svg width="${w}" height="${h}" viewBox="${vb||'-30 -30 60 60'}" aria-hidden="true">${inner}</svg>`}
